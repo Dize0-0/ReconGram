@@ -1,0 +1,22 @@
+[Desktop Entry]
+Name=ReconGram Desktop
+Comment=Desktop version of ReconGram - Telegram client
+TryExec=ReconGram
+Exec=env DESKTOPINTEGRATION=1 ReconGram -- %U
+Icon=com.recongram.desktop
+Terminal=false
+StartupWMClass=ReconGram
+Type=Application
+Categories=Chat;Network;InstantMessaging;Qt;
+MimeType=x-scheme-handler/tg;x-scheme-handler/tonsite;
+Keywords=tg;chat;im;messaging;messenger;sms;telegram;tdesktop;recongram;
+Actions=quit;
+DBusActivatable=true
+SingleMainWindow=true
+X-GNOME-UsesNotifications=true
+X-GNOME-SingleWindow=true
+
+[Desktop Action quit]
+Exec=ReconGram -quit
+Name=Quit ReconGram
+Icon=application-exit
