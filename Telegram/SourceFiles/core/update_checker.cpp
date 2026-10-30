@@ -1026,7 +1026,6 @@ void HttpChecker::clearSentRequest() {
 	reply->disconnect(reply, &QNetworkReply::errorOccurred, nullptr, nullptr);
 	reply->abort();
 	reply->deleteLater();
-	_manager = nullptr;
 }
 
 void HttpChecker::gotFailure(QNetworkReply::NetworkError e) {
@@ -1036,7 +1035,9 @@ void HttpChecker::gotFailure(QNetworkReply::NetworkError e) {
 		reply->deleteLater();
 	}
 
-	fail();
+	crl::on_main(this, [=] {
+		fail();
+	});
 }
 
 std::optional<QString> HttpChecker::parseOldResponse(
@@ -1932,7 +1933,7 @@ void Updater::stop() {
 }
 
 void Updater::start(bool forceWait) {
-	if (cExeName().isEmpty()) {
+	if (UpdaterDisabled() || cExeName().isEmpty()) {
 		return;
 	}
 
