@@ -21,7 +21,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 constexpr auto AppId = "{53F49750-6209-4FBF-9CA8-7A333C87D666}"_cs;
 constexpr auto AppNameOld = "ReconGram for Windows"_cs;
 constexpr auto AppName = "ReconGram Desktop"_cs;
-constexpr auto AppId = "ReconGram"_cs;
+constexpr auto AppFile = "ReconGram"_cs;
 constexpr auto AppVersion = 7002009;
 constexpr auto AppVersionStr = "7.2.9";
 constexpr auto AppBetaVersion = false;
