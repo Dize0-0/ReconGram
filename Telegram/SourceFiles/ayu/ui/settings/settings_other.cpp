@@ -2,6 +2,7 @@
 #include "ayu/ui/settings/settings_other.h"
 
 #include "lang_auto.h"
+#include "lang/lang_text_entity.h"
 #include "ayu/ayu_settings.h"
 #include "ayu/ui/settings/ayu_builder.h"
 #include "ayu/ui/settings/settings_ayu_utils.h"
