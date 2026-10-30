@@ -111,12 +111,3 @@ endif()
 if (NOT TDESKTOP_CANARY_PUBLIC_CHANNEL STREQUAL "")
     target_compile_definitions(Telegram PRIVATE TDESKTOP_CANARY_PUBLIC_CHANNEL=${TDESKTOP_CANARY_PUBLIC_CHANNEL})
 endif()
-
-if (WIN32 AND MSVC)
-    target_compile_options(Telegram PRIVATE /Gy /Gw)
-    target_link_options(Telegram PRIVATE
-        /OPT:REF
-        /OPT:ICF
-        /DEBUG:NONE
-    )
-endif()
