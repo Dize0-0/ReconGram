@@ -8,7 +8,6 @@
 
 #include "apiwrap.h"
 #include "ayu_settings.h"
-#include "ayu/utils/windows_utils.h"
 #include "base/timer.h"
 #include "base/unixtime.h"
 #include "core/application.h"
@@ -81,20 +80,10 @@ void runOnce() {
 			}
 		}
 	}
-
-	static auto lastTrimTime = crl::time(0);
-	const auto now = crl::now();
-	if (now - lastTrimTime > crl::time(60 * 1000)) {
-		lastTrimTime = now;
-		trimMemoryUsage();
-	}
 }
 
 void initialize() {
 	workerTimer().callEach(3000);
-	base::call_delayed(5000, [] {
-		trimMemoryUsage();
-	});
 }
 
 }

@@ -249,9 +249,6 @@ void initialize() {
 
 	try {
 		storage.open_forever();
-		storage.pragma.journal_mode(journal_mode::WAL);
-		storage.pragma.synchronous(1);
-		storage.pragma.cache_size(-2000);
 	} catch (const std::exception &ex) {
 		LOG(("Failed to keep database open: %1").arg(ex.what()));
 	}

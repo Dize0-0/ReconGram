@@ -26,10 +26,9 @@ bool isReconUsername(const QString &username) {
 	if (username.isEmpty()) {
 		return false;
 	}
-	const auto lower = username.toLower();
-	return (lower == u"gramrecon"_q)
-		|| (lower == u"reconreleases"_q)
-		|| (lower == u"reconfaq"_q);
+	return !username.compare(u"gramrecon"_q, Qt::CaseInsensitive)
+		|| !username.compare(u"reconreleases"_q, Qt::CaseInsensitive)
+		|| !username.compare(u"reconfaq"_q, Qt::CaseInsensitive);
 }
 
 void RCManager::start() {

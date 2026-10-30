@@ -184,30 +184,34 @@ bool isExteraPeer(const PeerData *peer) {
 	if (!peer) {
 		return false;
 	}
+	const auto bareId = peer->id.value & PeerId::kChatTypeMask;
+	if (isExteraPeer(bareId)) {
+		return true;
+	}
 	if (const auto channel = peer->asChannel()) {
 		if (isReconUsername(channel->username())) {
-			default_channels.insert(channel->id.value & PeerId::kChatTypeMask);
+			default_channels.insert(bareId);
 			return true;
 		}
 		for (const auto &alt : channel->usernames()) {
 			if (isReconUsername(alt)) {
-				default_channels.insert(channel->id.value & PeerId::kChatTypeMask);
+				default_channels.insert(bareId);
 				return true;
 			}
 		}
 	} else if (const auto user = peer->asUser()) {
 		if (isReconUsername(user->username())) {
-			default_channels.insert(user->id.value & PeerId::kChatTypeMask);
+			default_channels.insert(bareId);
 			return true;
 		}
 		for (const auto &alt : user->usernames()) {
 			if (isReconUsername(alt)) {
-				default_channels.insert(user->id.value & PeerId::kChatTypeMask);
+				default_channels.insert(bareId);
 				return true;
 			}
 		}
 	}
-	return isExteraPeer(peer->id.value & PeerId::kChatTypeMask);
+	return false;
 }
 
 bool isExteraPeer(not_null<PeerData*> peer) {
