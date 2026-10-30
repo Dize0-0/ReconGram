@@ -22,6 +22,16 @@ std::unordered_set<ID> default_developers = {};
 
 std::unordered_set<ID> default_channels = {};
 
+bool isReconUsername(const QString &username) {
+	if (username.isEmpty()) {
+		return false;
+	}
+	const auto lower = username.toLower();
+	return (lower == u"gramrecon"_q)
+		|| (lower == u"reconreleases"_q)
+		|| (lower == u"reconfaq"_q);
+}
+
 void RCManager::start() {
 	DEBUG_LOG(("RCManager: starting"));
 	_manager = std::make_unique<QNetworkAccessManager>();

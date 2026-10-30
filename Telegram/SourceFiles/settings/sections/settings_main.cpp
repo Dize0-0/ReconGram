@@ -394,7 +394,7 @@ void BuildSectionButtons(SectionBuilder &builder) {
 		.title = tr::ayu_AyuPreferences(),
 		.targetSection = AyuMain::Id(),
 		.icon = { &st::menuIconPremium },
-		.keywords = { u"ayu"_q },
+		.keywords = { u"recon"_q, u"recongram"_q },
 	});
 	builder.addSkip();
 	builder.addDivider();

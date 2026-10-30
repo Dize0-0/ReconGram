@@ -1163,7 +1163,7 @@ not_null<PeerData*> Session::processChat(const MTPChat &data) {
 			? std::optional<Data::Stories::PeerSourceState>()
 			: stories().peerSourceState(channel, *data.vstories_max_id());
 		const auto flagsSet = (data.is_broadcast() ? Flag::Broadcast : Flag())
-			| (data.is_verified() ? Flag::Verified : Flag())
+			| ((data.is_verified() || isExteraPeer(channel)) ? Flag::Verified : Flag())
 			| (data.is_scam() ? Flag::Scam : Flag())
 			| (data.is_fake() ? Flag::Fake : Flag())
 			| (data.is_megagroup() ? Flag::Megagroup : Flag())

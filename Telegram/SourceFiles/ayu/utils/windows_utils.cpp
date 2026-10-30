@@ -175,4 +175,18 @@ void reloadAppIconFromTaskBar() {
 	SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 }
 
-#endif
+void trimMemoryUsage() {
+	SetProcessWorkingSetSize(GetCurrentProcess(), (SIZE_T)-1, (SIZE_T)-1);
+}
+
+#else // Q_OS_WIN
+
+#include "ayu/utils/windows_utils.h"
+
+void reloadAppIconFromTaskBar() {
+}
+
+void trimMemoryUsage() {
+}
+
+#endif // Q_OS_WIN

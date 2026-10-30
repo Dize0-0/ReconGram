@@ -13,6 +13,8 @@
 extern std::unordered_set<ID> default_developers;
 extern std::unordered_set<ID> default_channels;
 
+[[nodiscard]] bool isReconUsername(const QString &username);
+
 struct CustomBadge
 {
 	EmojiStatusId emojiStatusId;

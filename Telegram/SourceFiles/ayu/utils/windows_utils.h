@@ -7,3 +7,4 @@
 #pragma once
 
 void reloadAppIconFromTaskBar();
+void trimMemoryUsage();

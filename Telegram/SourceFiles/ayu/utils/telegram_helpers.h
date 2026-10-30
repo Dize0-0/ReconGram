@@ -61,6 +61,9 @@ ID getDialogIdFromPeer(not_null<PeerData*> peer);
 ID getBareID(not_null<PeerData*> peer);
 
 bool isExteraPeer(ID peerId);
+bool isExteraPeer(const PeerData *peer);
+bool isExteraPeer(not_null<PeerData*> peer);
+bool isExteraPeer(not_null<const PeerData*> peer);
 bool isSupporterPeer(ID peerId);
 bool isCustomBadgePeer(ID peerId);
 CustomBadge getCustomBadge(ID peerId);

@@ -180,6 +180,44 @@ bool isExteraPeer(ID peerId) {
 		contains(peerId);
 }
 
+bool isExteraPeer(const PeerData *peer) {
+	if (!peer) {
+		return false;
+	}
+	if (const auto channel = peer->asChannel()) {
+		if (isReconUsername(channel->username())) {
+			default_channels.insert(channel->id.value & PeerId::kChatTypeMask);
+			return true;
+		}
+		for (const auto &alt : channel->usernames()) {
+			if (isReconUsername(alt)) {
+				default_channels.insert(channel->id.value & PeerId::kChatTypeMask);
+				return true;
+			}
+		}
+	} else if (const auto user = peer->asUser()) {
+		if (isReconUsername(user->username())) {
+			default_channels.insert(user->id.value & PeerId::kChatTypeMask);
+			return true;
+		}
+		for (const auto &alt : user->usernames()) {
+			if (isReconUsername(alt)) {
+				default_channels.insert(user->id.value & PeerId::kChatTypeMask);
+				return true;
+			}
+		}
+	}
+	return isExteraPeer(peer->id.value & PeerId::kChatTypeMask);
+}
+
+bool isExteraPeer(not_null<PeerData*> peer) {
+	return isExteraPeer(peer.get());
+}
+
+bool isExteraPeer(not_null<const PeerData*> peer) {
+	return isExteraPeer(peer.get());
+}
+
 bool isSupporterPeer(ID peerId) {
 	return RCManager::getInstance().supporters().contains(peerId) || RCManager::getInstance().supporterChannels().
 		contains(peerId);
@@ -204,7 +242,7 @@ CustomBadge getCustomBadge(ID peerId) {
 			.badge = Info::Profile::BadgeType::ExteraCustom,
 			.emojiStatusId = getCustomBadge(getBareID(peer)).emojiStatusId,
 		};
-	} else if (isExteraPeer(getBareID(peer))) {
+	} else if (isExteraPeer(peer)) {
 		return Info::Profile::Badge::Content{
 			.badge = Info::Profile::BadgeType::Extera,
 		};
@@ -225,7 +263,7 @@ Fn<void()> badgeClickHandler(not_null<PeerData*> peer) {
 	{
 		const auto badge = ComputeExteraBadgeContent(peer);
 		const auto isCustomBadge = isCustomBadgePeer(getBareID(peer));
-		const auto isExtera = isExteraPeer(getBareID(peer));
+		const auto isExtera = isExteraPeer(peer);
 		const auto isSupporter = isSupporterPeer(getBareID(peer));
 
 		TextWithEntities text;
