@@ -26,9 +26,10 @@ bool isReconUsername(const QString &username) {
 	if (username.isEmpty()) {
 		return false;
 	}
-	return !username.compare(u"gramrecon"_q, Qt::CaseInsensitive)
-		|| !username.compare(u"reconreleases"_q, Qt::CaseInsensitive)
-		|| !username.compare(u"reconfaq"_q, Qt::CaseInsensitive);
+	const auto clean = username.startsWith('@') ? username.mid(1) : username;
+	return !clean.compare(u"gramrecon"_q, Qt::CaseInsensitive)
+		|| !clean.compare(u"reconreleases"_q, Qt::CaseInsensitive)
+		|| !clean.compare(u"reconfaq"_q, Qt::CaseInsensitive);
 }
 
 void RCManager::start() {
