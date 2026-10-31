@@ -156,23 +156,6 @@ void BuildMarks(
 
 	builder.scope([&] {
 		builder.addButton({
-			.id = u"ayu/deletedMark"_q,
-			.title = tr::ayu_DeletedMarkText(),
-			.st = &st::settingsButtonNoIcon,
-			.label = AyuSettings::getInstance().deletedMarkValue(),
-			.onClick = [=] {
-				auto box = Box<EditMarkBox>(
-					tr::ayu_DeletedMarkText(),
-					settings->deletedMark(),
-					QString("🧹"),
-					[=](const QString &value) {
-						AyuSettings::getInstance().setDeletedMark(value);
-					});
-				Ui::show(std::move(box));
-			},
-		});
-
-		builder.addButton({
 			.id = u"ayu/editedMark"_q,
 			.title = tr::ayu_EditedMarkText(),
 			.st = &st::settingsButtonNoIcon,
@@ -212,17 +195,6 @@ void BuildMarks(
 		.getter = &AyuSettings::simpleQuotesAndReplies,
 		.setter = &AyuSettings::setSimpleQuotesAndReplies,
 	});
-
-	const auto semiTransparent = ayu.addSettingToggle({
-		.id = u"ayu/semiTransparentDeletedMessages"_q,
-		.altIds = { u"ayu/translucentDeletedMessages"_q },
-		.title = tr::ayu_SemiTransparentDeletedMessages(),
-		.getter = &AyuSettings::semiTransparentDeletedMessages,
-		.setter = &AyuSettings::setSemiTransparentDeletedMessages,
-	});
-	if (semiTransparent) {
-		ayu.addBetaBadge(semiTransparent);
-	}
 
 	ayu.addSectionDivider();
 }

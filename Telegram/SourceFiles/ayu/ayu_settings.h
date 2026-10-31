@@ -86,24 +86,24 @@ class GhostModeAccountSettings {
 public:
 	GhostModeAccountSettings();
 
-	[[nodiscard]] bool sendReadMessages() const { return _sendReadMessages.current(); }
-	[[nodiscard]] bool sendReadStories() const { return _sendReadStories.current(); }
-	[[nodiscard]] bool sendOnlinePackets() const { return _sendOnlinePackets.current(); }
-	[[nodiscard]] bool sendUploadProgress() const { return _sendUploadProgress.current(); }
-	[[nodiscard]] bool sendOfflinePacketAfterOnline() const { return _sendOfflinePacketAfterOnline.current(); }
-	[[nodiscard]] bool markReadAfterAction() const { return _markReadAfterAction.current(); }
-	[[nodiscard]] bool useScheduledMessages() const { return _useScheduledMessages.current(); }
-	[[nodiscard]] SendWithoutSoundOption sendWithoutSound() const { return _sendWithoutSound.current(); }
-	[[nodiscard]] bool shouldSendWithoutSound() const;
-	[[nodiscard]] bool suggestGhostModeBeforeViewingStory() const { return _suggestGhostModeBeforeViewingStory.current(); }
-	[[nodiscard]] bool isGhostModeActive() const { return _ghostModeActive.current(); }
-	[[nodiscard]] bool isUseScheduledMessages() const { return isGhostModeActive() && useScheduledMessages(); }
+	[[nodiscard]] bool sendReadMessages() const { return true; }
+	[[nodiscard]] bool sendReadStories() const { return true; }
+	[[nodiscard]] bool sendOnlinePackets() const { return true; }
+	[[nodiscard]] bool sendUploadProgress() const { return true; }
+	[[nodiscard]] bool sendOfflinePacketAfterOnline() const { return false; }
+	[[nodiscard]] bool markReadAfterAction() const { return true; }
+	[[nodiscard]] bool useScheduledMessages() const { return false; }
+	[[nodiscard]] SendWithoutSoundOption sendWithoutSound() const { return SendWithoutSoundOption::Never; }
+	[[nodiscard]] bool shouldSendWithoutSound() const { return false; }
+	[[nodiscard]] bool suggestGhostModeBeforeViewingStory() const { return false; }
+	[[nodiscard]] bool isGhostModeActive() const { return false; }
+	[[nodiscard]] bool isUseScheduledMessages() const { return false; }
 
-	[[nodiscard]] bool sendReadMessagesLocked() const { return _sendReadMessagesLocked.current(); }
-	[[nodiscard]] bool sendReadStoriesLocked() const { return _sendReadStoriesLocked.current(); }
-	[[nodiscard]] bool sendOnlinePacketsLocked() const { return _sendOnlinePacketsLocked.current(); }
-	[[nodiscard]] bool sendUploadProgressLocked() const { return _sendUploadProgressLocked.current(); }
-	[[nodiscard]] bool sendOfflinePacketAfterOnlineLocked() const { return _sendOfflinePacketAfterOnlineLocked.current(); }
+	[[nodiscard]] bool sendReadMessagesLocked() const { return false; }
+	[[nodiscard]] bool sendReadStoriesLocked() const { return false; }
+	[[nodiscard]] bool sendOnlinePacketsLocked() const { return false; }
+	[[nodiscard]] bool sendUploadProgressLocked() const { return false; }
+	[[nodiscard]] bool sendOfflinePacketAfterOnlineLocked() const { return false; }
 
 	void setSendReadMessages(bool val);
 	void setSendReadStories(bool val);
@@ -267,13 +267,13 @@ public:
 
 	void validate();
 
-	[[nodiscard]] bool saveDeletedMessages() const { return _saveDeletedMessages.current(); }
-	[[nodiscard]] bool saveMessagesHistory() const { return _saveMessagesHistory.current(); }
-	[[nodiscard]] bool saveForBots() const { return _saveForBots.current(); }
+	[[nodiscard]] bool saveDeletedMessages() const { return false; }
+	[[nodiscard]] bool saveMessagesHistory() const { return false; }
+	[[nodiscard]] bool saveForBots() const { return false; }
 	[[nodiscard]] bool filtersEnabled() const { return _filtersEnabled.current(); }
 	[[nodiscard]] bool filtersEnabledInChats() const { return _filtersEnabledInChats.current(); }
 	[[nodiscard]] bool hideFromBlocked() const { return _hideFromBlocked.current(); }
-	[[nodiscard]] bool semiTransparentDeletedMessages() const { return _semiTransparentDeletedMessages.current(); }
+	[[nodiscard]] bool semiTransparentDeletedMessages() const { return false; }
 	[[nodiscard]] bool disableAds() const { return _disableAds.current(); }
 	[[nodiscard]] bool disableStories() const { return _disableStories.current(); }
 	[[nodiscard]] bool disableCustomBackgrounds() const { return _disableCustomBackgrounds.current(); }
@@ -324,12 +324,12 @@ public:
 	[[nodiscard]] bool showContactsInDrawer() const { return _showContactsInDrawer.current(); }
 	[[nodiscard]] bool showCallsInDrawer() const { return _showCallsInDrawer.current(); }
 	[[nodiscard]] bool showSavedMessagesInDrawer() const { return _showSavedMessagesInDrawer.current(); }
-	[[nodiscard]] bool showLReadToggleInDrawer() const { return _showLReadToggleInDrawer.current(); }
-	[[nodiscard]] bool showSReadToggleInDrawer() const { return _showSReadToggleInDrawer.current(); }
+	[[nodiscard]] bool showLReadToggleInDrawer() const { return false; }
+	[[nodiscard]] bool showSReadToggleInDrawer() const { return false; }
 	[[nodiscard]] bool showNightModeToggleInDrawer() const { return _showNightModeToggleInDrawer.current(); }
-	[[nodiscard]] bool showGhostToggleInDrawer() const { return _showGhostToggleInDrawer.current(); }
+	[[nodiscard]] bool showGhostToggleInDrawer() const { return false; }
 	[[nodiscard]] bool showStreamerToggleInDrawer() const { return _showStreamerToggleInDrawer.current(); }
-	[[nodiscard]] bool showGhostToggleInTray() const { return _showGhostToggleInTray.current(); }
+	[[nodiscard]] bool showGhostToggleInTray() const { return false; }
 	[[nodiscard]] bool showStreamerToggleInTray() const { return _showStreamerToggleInTray.current(); }
 	[[nodiscard]] const QString &monoFont() const { return _monoFont.current(); }
 	[[nodiscard]] bool hideNotificationCounters() const { return _hideNotificationCounters.current(); }
@@ -624,8 +624,8 @@ private:
 
 	[[nodiscard]] uint64 getOverriddenGhostUserId(uint64 userId) const { return _useGlobalGhostMode.current() ? 0 : userId; }
 
-	rpl::variable<bool> _saveDeletedMessages = true;
-	rpl::variable<bool> _saveMessagesHistory = true;
+	rpl::variable<bool> _saveDeletedMessages = false;
+	rpl::variable<bool> _saveMessagesHistory = false;
 	rpl::variable<bool> _saveForBots = false;
 	std::unordered_set<int64> _shadowBanIds;
 	rpl::variable<bool> _filtersEnabled = false;
@@ -682,11 +682,11 @@ private:
 	rpl::variable<bool> _showCallsInDrawer = true;
 	rpl::variable<bool> _showSavedMessagesInDrawer = true;
 	rpl::variable<bool> _showLReadToggleInDrawer = false;
-	rpl::variable<bool> _showSReadToggleInDrawer = true;
+	rpl::variable<bool> _showSReadToggleInDrawer = false;
 	rpl::variable<bool> _showNightModeToggleInDrawer = true;
-	rpl::variable<bool> _showGhostToggleInDrawer = true;
+	rpl::variable<bool> _showGhostToggleInDrawer = false;
 	rpl::variable<bool> _showStreamerToggleInDrawer = false;
-	rpl::variable<bool> _showGhostToggleInTray = true;
+	rpl::variable<bool> _showGhostToggleInTray = false;
 	rpl::variable<bool> _showStreamerToggleInTray = false;
 	rpl::variable<bool> _hidePremiumStatuses = false;
 	rpl::variable<QString> _monoFont;

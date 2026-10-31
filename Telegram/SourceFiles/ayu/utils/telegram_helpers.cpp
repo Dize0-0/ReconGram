@@ -774,28 +774,11 @@ int getScheduleTime(int64 sumSize) {
 }
 
 bool isMessageSavable(const not_null<HistoryItem*> item) {
-	const auto &settings = AyuSettings::getInstance();
-
-	if (!settings.saveDeletedMessages()) {
-		return false;
-	}
-
-	if (const auto possiblyBot = item->history()->peer->asUser()) {
-		return !possiblyBot->isBot() || (settings.saveForBots() && possiblyBot->isBot());
-	}
-	return true;
+	return false;
 }
 
 void processMessageDelete(not_null<HistoryItem*> item) {
-	if (!isMessageSavable(item)) {
-		item->destroy();
-	} else {
-		if (item->ttlDestroyAt() > 0) {
-			item->applyTTL(0);
-		}
-		item->setDeleted();
-		AyuMessages::addDeletedMessage(item);
-	}
+	item->destroy();
 }
 
 void resolvePeer(

@@ -1488,6 +1488,7 @@ void Element::refreshDeletedAnimationTarget() {
 }
 
 float64 Element::deletedOpacity() const {
+	return 1.;
 	if (!_data->isDeleted()) {
 		return 1.;
 	}

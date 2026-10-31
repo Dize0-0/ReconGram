@@ -87,75 +87,32 @@ void map(not_null<HistoryItem*> item, AyuMessageBase &message) {
 }
 
 void addEditedMessage(not_null<HistoryItem *> item) {
-	EditedMessage message;
-	map(item, message);
-
-	if (message.text.empty()) {
-		return;
-	}
-
-	crl::async([message = std::move(message)] {
-		AyuDatabase::addEditedMessage(message);
-	});
 }
 
 std::vector<AyuMessageBase> getEditedMessages(not_null<HistoryItem*> item, ID minId, ID maxId, int totalLimit) {
-	const ID userId = item->history()->owner().session().userId().bare & PeerId::kChatTypeMask;
-	const auto dialogId = getDialogIdFromPeer(item->history()->peer);
-	const auto msgId = item->id.bare;
-
-	return convertToBase(AyuDatabase::getEditedMessages(userId, dialogId, msgId, minId, maxId, totalLimit));
+	return {};
 }
 
 bool hasRevisions(not_null<HistoryItem*> item) {
-	const ID userId = item->history()->owner().session().userId().bare & PeerId::kChatTypeMask;
-	const auto dialogId = getDialogIdFromPeer(item->history()->peer);
-	const auto msgId = item->id.bare;
-
-	return AyuDatabase::hasRevisions(userId, dialogId, msgId);
+	return false;
 }
 
 void addDeletedMessage(not_null<HistoryItem*> item) {
-	DeletedMessage message;
-	map(item, message);
-
-	if (message.text.empty()) {
-		return;
-	}
-
-	crl::async([message = std::move(message)] {
-		AyuDatabase::addDeletedMessage(message);
-	});
 }
 
 std::vector<AyuMessageBase>
 getDeletedMessages(not_null<PeerData*> peer, ID topicId, ID minId, ID maxId, int totalLimit, const QString &searchQuery) {
-	const ID userId = peer->session().userId().bare & PeerId::kChatTypeMask;
-	return convertToBase(
-		AyuDatabase::getDeletedMessages(userId, getDialogIdFromPeer(peer), topicId, minId, maxId, totalLimit, searchQuery.toStdString()));
+	return {};
 }
 
 bool hasDeletedMessages(not_null<PeerData*> peer, ID topicId) {
-	const ID userId = peer->session().userId().bare & PeerId::kChatTypeMask;
-	return AyuDatabase::hasDeletedMessages(userId, getDialogIdFromPeer(peer), topicId);
+	return false;
 }
 
 void removeDeletedMessage(not_null<HistoryItem*> item) {
-	const auto peer = item->history()->peer;
-	const ID userId = peer->session().userId().bare & PeerId::kChatTypeMask;
-	const auto dialogId = getDialogIdFromPeer(peer);
-	const auto messageId = item->id.bare;
-	crl::async([=] {
-		AyuDatabase::removeDeletedMessage(userId, dialogId, messageId);
-	});
 }
 
 void clearDeletedMessages(not_null<PeerData*> peer, ID topicId) {
-	const ID userId = peer->session().userId().bare & PeerId::kChatTypeMask;
-	const auto dialogId = getDialogIdFromPeer(peer);
-	crl::async([=] {
-		AyuDatabase::clearDeletedMessages(userId, dialogId, topicId);
-	});
 }
 
 }

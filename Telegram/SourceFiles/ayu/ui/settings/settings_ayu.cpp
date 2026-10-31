@@ -686,13 +686,6 @@ const auto kMeta = BuildHelper({
 }, [](SectionBuilder &builder) {
 	auto ayu = AyuSectionBuilder(builder);
 
-	builder.addSkip();
-	BuildGhostEssentials(builder);
-
-	builder.addSkip();
-	BuildSpyEssentials(builder, ayu);
-
-	ayu.addSectionDivider();
 	BuildOther(builder, ayu);
 	builder.addSkip();
 });

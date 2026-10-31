@@ -487,6 +487,7 @@ void AddDeleteOwnMessagesAction(PeerData *peerData,
 }
 
 void AddHistoryAction(not_null<Ui::PopupMenu*> menu, HistoryItem *item) {
+	return;
 	if (item->hideEditedBadge()) {
 		return;
 	}

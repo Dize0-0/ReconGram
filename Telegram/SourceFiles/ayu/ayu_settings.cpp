@@ -43,29 +43,7 @@ rpl::lifetime lifetime; // idk reactivity dies when placed in `GhostModeAccountS
 } // namespace
 
 GhostModeAccountSettings::GhostModeAccountSettings() {
-	rpl::combine(
-		_sendReadMessages.value(),
-		_sendReadMessagesLocked.value(),
-		_sendReadStories.value(),
-		_sendReadStoriesLocked.value(),
-		_sendOnlinePackets.value(),
-		_sendOnlinePacketsLocked.value(),
-		_sendUploadProgress.value(),
-		_sendUploadProgressLocked.value(),
-		_sendOfflinePacketAfterOnline.value(),
-		_sendOfflinePacketAfterOnlineLocked.value()
-	) | rpl::on_next([=](
-			bool readMsg, bool readMsgLocked,
-			bool readStories, bool readStoriesLocked,
-			bool online, bool onlineLocked,
-			bool upload, bool uploadLocked,
-			bool offline, bool offlineLocked) {
-		_ghostModeActive = (readMsgLocked || !readMsg)
-			&& (readStoriesLocked || !readStories)
-			&& (onlineLocked || !online)
-			&& (uploadLocked || !upload)
-			&& (offlineLocked || offline);
-	}, lifetime);
+	_ghostModeActive = false;
 }
 
 void GhostModeAccountSettings::setSendReadMessages(bool val) {
@@ -136,20 +114,6 @@ void GhostModeAccountSettings::setSuggestGhostModeBeforeViewingStory(bool val) {
 }
 
 void GhostModeAccountSettings::setGhostModeEnabled(bool val) {
-	if (!_sendReadMessagesLocked.current()) _sendReadMessages = !val;
-	if (!_sendReadStoriesLocked.current()) _sendReadStories = !val;
-	if (!_sendOnlinePacketsLocked.current()) _sendOnlinePackets = !val;
-	if (!_sendUploadProgressLocked.current()) _sendUploadProgress = !val;
-	if (!_sendOfflinePacketAfterOnlineLocked.current()) _sendOfflinePacketAfterOnline = val;
-	AyuSettings::save();
-
-	if (val) {
-		if (const auto window = Core::App().activeWindow()) {
-			if (const auto session = window->maybeSession()) {
-				AyuWorker::markAsOnline(session);
-			}
-		}
-	}
 }
 
 void GhostModeAccountSettings::setSendReadMessagesLocked(bool val) {

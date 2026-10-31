@@ -46,6 +46,7 @@ void lateInit() {
 }
 
 void runOnce() {
+	return;
 	if (!Core::IsAppLaunched() || !Core::App().domain().started() || Core::Quitting()) {
 		return;
 	}
