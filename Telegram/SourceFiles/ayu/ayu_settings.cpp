@@ -88,17 +88,6 @@ void GhostModeAccountSettings::setUseScheduledMessages(bool val) {
 	AyuSettings::save();
 }
 
-bool GhostModeAccountSettings::shouldSendWithoutSound() const {
-	switch (_sendWithoutSound.current()) {
-	case SendWithoutSoundOption::Never:
-		return false;
-	case SendWithoutSoundOption::InGhostMode:
-		return isGhostModeActive();
-	case SendWithoutSoundOption::Always:
-		return true;
-	}
-	Unexpected("Value in GhostModeAccountSettings::shouldSendWithoutSound.");
-}
 
 void GhostModeAccountSettings::setSendWithoutSound(
 		SendWithoutSoundOption val) {
