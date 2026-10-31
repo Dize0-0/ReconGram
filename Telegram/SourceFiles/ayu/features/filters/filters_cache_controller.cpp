@@ -6,6 +6,7 @@
 // Copyright @Radolyn, 2026
 #include "ayu/features/filters/filters_cache_controller.h"
 
+#include "ayu/ayu_settings.h"
 #include "ayu/data/ayu_database.h"
 #include "ayu/features/filters/filters_controller.h"
 #include "data/data_groups.h"
