@@ -63,7 +63,6 @@ void initIcon() {
 		const auto iconPath = AyuAssets::appIcoPath();
 		if (!QFile::exists(iconPath)) {
 			AyuAssets::loadAppIco();
-			reloadAppIconFromTaskBar();
 		}
 	});
 #endif

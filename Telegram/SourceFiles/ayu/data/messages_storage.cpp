@@ -17,6 +17,8 @@
 #include "history/history_item_components.h"
 #include "main/main_session.h"
 
+#include <crl/crl_async.h>
+
 namespace AyuMessages {
 
 template<typename DerivedMessage>
@@ -92,7 +94,9 @@ void addEditedMessage(not_null<HistoryItem *> item) {
 		return;
 	}
 
-	AyuDatabase::addEditedMessage(message);
+	crl::async([message = std::move(message)] {
+		AyuDatabase::addEditedMessage(message);
+	});
 }
 
 std::vector<AyuMessageBase> getEditedMessages(not_null<HistoryItem*> item, ID minId, ID maxId, int totalLimit) {
@@ -119,7 +123,9 @@ void addDeletedMessage(not_null<HistoryItem*> item) {
 		return;
 	}
 
-	AyuDatabase::addDeletedMessage(message);
+	crl::async([message = std::move(message)] {
+		AyuDatabase::addDeletedMessage(message);
+	});
 }
 
 std::vector<AyuMessageBase>
@@ -137,12 +143,19 @@ bool hasDeletedMessages(not_null<PeerData*> peer, ID topicId) {
 void removeDeletedMessage(not_null<HistoryItem*> item) {
 	const auto peer = item->history()->peer;
 	const ID userId = peer->session().userId().bare & PeerId::kChatTypeMask;
-	AyuDatabase::removeDeletedMessage(userId, getDialogIdFromPeer(peer), item->id.bare);
+	const auto dialogId = getDialogIdFromPeer(peer);
+	const auto messageId = item->id.bare;
+	crl::async([=] {
+		AyuDatabase::removeDeletedMessage(userId, dialogId, messageId);
+	});
 }
 
 void clearDeletedMessages(not_null<PeerData*> peer, ID topicId) {
 	const ID userId = peer->session().userId().bare & PeerId::kChatTypeMask;
-	AyuDatabase::clearDeletedMessages(userId, getDialogIdFromPeer(peer), topicId);
+	const auto dialogId = getDialogIdFromPeer(peer);
+	crl::async([=] {
+		AyuDatabase::clearDeletedMessages(userId, dialogId, topicId);
+	});
 }
 
 }

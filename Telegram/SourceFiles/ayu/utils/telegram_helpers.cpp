@@ -232,12 +232,21 @@ bool isExteraPeer(not_null<const PeerData*> peer) {
 }
 
 bool isSupporterPeer(ID peerId) {
-	return RCManager::getInstance().supporters().contains(peerId) || RCManager::getInstance().supporterChannels().
-		contains(peerId);
+	const auto &rc = RCManager::getInstance();
+	const auto &s = rc.supporters();
+	const auto &sc = rc.supporterChannels();
+	if (s.empty() && sc.empty()) {
+		return false;
+	}
+	return s.contains(peerId) || sc.contains(peerId);
 }
 
 bool isCustomBadgePeer(ID peerId) {
-	return RCManager::getInstance().supporterCustomBadges().contains(peerId);
+	const auto &badges = RCManager::getInstance().supporterCustomBadges();
+	if (badges.empty()) {
+		return false;
+	}
+	return badges.contains(peerId);
 }
 
 CustomBadge getCustomBadge(ID peerId) {
