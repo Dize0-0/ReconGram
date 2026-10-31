@@ -2759,14 +2759,15 @@ void TopBar::applyTabSwapProgress(float64 progress) {
 }
 
 void TopBar::resizeEvent(QResizeEvent *e) {
-	_cachedClipPath = QPainterPath();
+	if (e->oldSize().width() != e->size().width()) {
+		_cachedClipPath = QPainterPath();
+		if (_hasGradientBg) {
+			_cachedGradient = QImage();
+		}
+	}
 	const auto collectible = effectiveCollectible();
 	if (collectible && !_animatedPoints.empty()) {
 		setupAnimatedPattern();
-	}
-	if (_hasGradientBg && e->oldSize().width() != e->size().width()) {
-		_cachedClipPath = QPainterPath();
-		_cachedGradient = QImage();
 	}
 	updateLabelsPosition();
 	RpWidget::resizeEvent(e);
@@ -2834,9 +2835,6 @@ void TopBar::paintUserpic(QPainter &p, const QRect &geometry) {
 		if (!frame.isNull()) {
 			auto hq = PainterHighQualityEnabler(p);
 			p.drawImage(geometry, frame);
-			if (!paused) {
-				update();
-			}
 			return;
 		}
 	}
@@ -3260,6 +3258,7 @@ void TopBar::updateVideoUserpic() {
 	}
 	if (!_videoUserpicPlayer) {
 		_videoUserpicPlayer = std::make_unique<Ui::VideoUserpicPlayer>();
+		_videoUserpicPlayer->setRepaintCallback([=] { update(); });
 	}
 	_videoUserpicPlayer->setup(_peer, photo);
 }

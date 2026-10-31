@@ -228,6 +228,12 @@ void AyuLanguage::applyLanguageJson(QJsonDocument doc) {
 			val = val.replace(qsl("%1$s"), qsl("{item1}")).replace(qsl("%2$s"), qsl("{item2}"));
 		}
 
+		val.replace(u"exteraGram или AyuGram"_q, u"ReconGram"_q);
+		val.replace(u"exteraGram или ReconGram"_q, u"ReconGram"_q);
+		val.replace(u"**exteraGram** или **AyuGram**"_q, u"**ReconGram**"_q);
+		val.replace(u"**exteraGram** или **ReconGram**"_q, u"**ReconGram**"_q);
+		val.replace(u"exteraGram"_q, u"ReconGram"_q);
+		val.replace(u"exteragram"_q, u"recongram"_q);
 		val.replace(u"AyuGram"_q, u"ReconGram"_q);
 		val.replace(u"ayugram"_q, u"recongram"_q);
 		val.replace(u"AYUGRAM"_q, u"RECONGRAM"_q);

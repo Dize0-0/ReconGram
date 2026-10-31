@@ -509,7 +509,9 @@ void TopBarWidget::toggleInfoSection() {
 						? std::make_shared<Info::Memento>(
 							_activeChat.key.sublist())
 						: Info::Memento::Default(_activeChat.key.peer())),
-					Window::SectionShow().withThirdColumn());
+					Window::SectionShow(
+						Window::SectionShow::Way::ClearStack,
+						anim::type::instant).withThirdColumn());
 			} else {
 				_controller->resizeForThirdSection();
 				_controller->updateColumnLayout();
@@ -879,18 +881,22 @@ void TopBarWidget::infoClicked() {
 	const auto key = _activeChat.key;
 	if (!key) {
 		return;
-	} else if (const auto topic = key.topic()) {
-		_controller->showSection(std::make_shared<Info::Memento>(topic));
+	}
+	const auto params = Window::SectionShow(
+		Window::SectionShow::Way::ClearStack,
+		anim::type::instant);
+	if (const auto topic = key.topic()) {
+		_controller->showSection(std::make_shared<Info::Memento>(topic), params);
 	} else if (const auto sublist = key.sublist()) {
-		_controller->showSection(std::make_shared<Info::Memento>(sublist));
+		_controller->showSection(std::make_shared<Info::Memento>(sublist), params);
 	} else if (key.peer()->savedSublistsInfo()) {
-		_controller->showSection(Info::Memento::Default(key.peer()));
+		_controller->showSection(Info::Memento::Default(key.peer()), params);
 	} else if (key.peer()->sharedMediaInfo()) {
 		_controller->showSection(std::make_shared<Info::Memento>(
 			key.peer(),
-			Info::Section(Storage::SharedMediaType::Photo)));
+			Info::Section(Storage::SharedMediaType::Photo)), params);
 	} else {
-		_controller->showPeerInfo(key.peer());
+		_controller->showPeerInfo(key.peer(), params);
 	}
 }
 
