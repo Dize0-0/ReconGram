@@ -6,6 +6,7 @@
 // Copyright @Radolyn, 2026
 #include "ayu/ayu_lang.h"
 
+#include <rpl/rpl.h>
 #include "qjsondocument.h"
 #include "core/application.h"
 #include "core/core_settings.h"
@@ -46,7 +47,7 @@ void AyuLanguage::init() {
 
 void AyuLanguage::setupLanguageHooks() {
 	Lang::GetInstance().idChanges(
-	) | rpl::start_with_next([=](const QString &) {
+	) | rpl::on_next([=](const QString &) {
 		const auto id = Lang::GetInstance().id();
 		const auto baseId = Lang::GetInstance().baseId();
 		loadCachedLanguage();

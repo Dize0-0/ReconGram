@@ -181,10 +181,15 @@ jobs:
             )
           )
 
+          set API_ID=${{ secrets.TELEGRAM_API_ID }}
+          set API_HASH=${{ secrets.TELEGRAM_API_HASH }}
+          if "%API_ID%"=="" set API_ID=611335
+          if "%API_HASH%"=="" set API_HASH=d524b414d21f4d37f08684c1df41ac9c
+
           call configure.bat ^
           x64 ^
-          -D TDESKTOP_API_ID=2040 ^
-          -D TDESKTOP_API_HASH=b18441a1ff607e10a989891a5462e627 ^
+          -D TDESKTOP_API_ID=%API_ID% ^
+          -D TDESKTOP_API_HASH=%API_HASH% ^
           -D CMAKE_CONFIGURATION_TYPES=Debug ^
           -D CMAKE_COMPILE_WARNING_AS_ERROR=ON ^
           -D CMAKE_MSVC_DEBUG_INFORMATION_FORMAT= ^
