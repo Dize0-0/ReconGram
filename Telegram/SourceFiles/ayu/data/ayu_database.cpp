@@ -232,6 +232,12 @@ void moveCurrentDatabase() {
 void initialize() {
 	std::lock_guard lock(databaseMutex);
 	try {
+		storage.pragma.busy_timeout(1000);
+		storage.pragma.journal_mode(journal_mode::WAL);
+		storage.pragma.synchronous(1);
+	} catch (...) {
+	}
+	try {
 		storage.sync_schema(true);
 
 		runMigrations(storage);

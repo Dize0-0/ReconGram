@@ -187,6 +187,10 @@ bool isExteraPeer(const PeerData *peer) {
 	if (default_channels.contains(bareId)) {
 		return true;
 	}
+	static auto nonRecon = std::unordered_set<ID>();
+	if (nonRecon.contains(bareId)) {
+		return false;
+	}
 	if (const auto channel = peer->asChannel()) {
 		if (isReconUsername(channel->username())) {
 			default_channels.insert(bareId);
@@ -215,6 +219,7 @@ bool isExteraPeer(const PeerData *peer) {
 			}
 		}
 	}
+	nonRecon.insert(bareId);
 	return false;
 }
 

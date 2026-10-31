@@ -1374,7 +1374,7 @@ void HistoryWidget::refreshGiftToChannelShown() {
 	_giftToChannel->setVisible(channel
 		&& channel->isBroadcast()
 		&& channel->stargiftsAvailable()
-		&& isExteraPeer(getBareID(channel)));
+		&& isExteraPeer(channel));
 }
 
 void HistoryWidget::refreshDirectMessageShown() {
