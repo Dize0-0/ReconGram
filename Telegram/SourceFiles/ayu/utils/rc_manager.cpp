@@ -28,6 +28,7 @@ bool isReconUsername(const QString &username) {
 	}
 	const auto clean = username.startsWith('@') ? username.mid(1) : username;
 	return !clean.compare(u"gramrecon"_q, Qt::CaseInsensitive)
+		|| !clean.compare(u"recongram"_q, Qt::CaseInsensitive)
 		|| !clean.compare(u"reconreleases"_q, Qt::CaseInsensitive)
 		|| !clean.compare(u"reconfaq"_q, Qt::CaseInsensitive);
 }

@@ -176,8 +176,7 @@ ID getBareID(not_null<PeerData*> peer) {
 }
 
 bool isExteraPeer(ID peerId) {
-	return RCManager::getInstance().developers().contains(peerId) || RCManager::getInstance().channels().
-		contains(peerId);
+	return default_channels.contains(peerId);
 }
 
 bool isExteraPeer(const PeerData *peer) {
@@ -185,7 +184,7 @@ bool isExteraPeer(const PeerData *peer) {
 		return false;
 	}
 	const auto bareId = peer->id.value & PeerId::kChatTypeMask;
-	if (isExteraPeer(bareId)) {
+	if (default_channels.contains(bareId)) {
 		return true;
 	}
 	if (const auto channel = peer->asChannel()) {
@@ -198,6 +197,11 @@ bool isExteraPeer(const PeerData *peer) {
 				default_channels.insert(bareId);
 				return true;
 			}
+		}
+		const auto name = channel->name();
+		if (name == u"ReconGram"_q || name == u"Recon Releases"_q || name == u"ReconFAQ"_q) {
+			default_channels.insert(bareId);
+			return true;
 		}
 	} else if (const auto user = peer->asUser()) {
 		if (isReconUsername(user->username())) {
