@@ -180,9 +180,7 @@ void reloadAppIconFromTaskBar() {
 	}
 }
 
-void trimMemoryUsage() {
-	SetProcessWorkingSetSize(GetCurrentProcess(), (SIZE_T)-1, (SIZE_T)-1);
-}
+
 
 #else // Q_OS_WIN
 
@@ -191,7 +189,6 @@ void trimMemoryUsage() {
 void reloadAppIconFromTaskBar() {
 }
 
-void trimMemoryUsage() {
-}
+
 
 #endif // Q_OS_WIN

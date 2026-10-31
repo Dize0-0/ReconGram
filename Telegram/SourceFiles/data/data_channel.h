@@ -271,7 +271,9 @@ public:
 	[[nodiscard]] bool isForbidden() const {
 		return flags() & Flag::Forbidden;
 	}
-	[[nodiscard]] bool isVerified() const;
+	[[nodiscard]] bool isVerified() const {
+		return flags() & Flag::Verified;
+	}
 	[[nodiscard]] bool isScam() const {
 		return flags() & Flag::Scam;
 	}

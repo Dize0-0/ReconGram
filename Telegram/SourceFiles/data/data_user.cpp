@@ -611,7 +611,7 @@ void UserData::removeFlags(UserDataFlags which) {
 }
 
 bool UserData::isVerified() const {
-	return (flags() & UserDataFlag::Verified) || isExteraPeer(this);
+	return flags() & UserDataFlag::Verified;
 }
 
 bool UserData::isScam() const {

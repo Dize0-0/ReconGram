@@ -62,7 +62,6 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 // AyuGram includes
 #include "ayu/ui/ayu_logo.h"
-#include "ayu/utils/windows_utils.h"
 
 
 namespace Window {
@@ -522,7 +521,6 @@ bool MainWindow::hideNoQuit() {
 		return false;
 	}
 	controller().updateIsActiveBlur();
-	trimMemoryUsage();
 	updateGlobalMenu();
 	if (const auto controller = sessionController()) {
 		controller->clearSectionStack();
@@ -592,7 +590,6 @@ void MainWindow::handleStateChanged(Qt::WindowState state) {
 	updateControlsGeometry();
 	if (state == Qt::WindowMinimized) {
 		controller().updateIsActiveBlur();
-		trimMemoryUsage();
 	} else {
 		controller().updateIsActiveFocus();
 	}
@@ -1072,7 +1069,6 @@ bool MainWindow::minimizeToTray() {
 
 	closeWithoutDestroy();
 	controller().updateIsActiveBlur();
-	trimMemoryUsage();
 	updateGlobalMenu();
 	return true;
 }

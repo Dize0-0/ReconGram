@@ -183,9 +183,7 @@ bool ChannelData::isUsernameEditable(QString username) const {
 	return _username.isEditable(username);
 }
 
-bool ChannelData::isVerified() const {
-	return (flags() & Flag::Verified) || isExteraPeer(this);
-}
+
 
 void ChannelData::setAccessHash(uint64 accessHash) {
 	_accessHash = accessHash;

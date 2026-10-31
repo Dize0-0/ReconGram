@@ -749,7 +749,7 @@ not_null<UserData*> Session::processUser(const MTPUser &data) {
 			? std::optional<Data::Stories::PeerSourceState>()
 			: stories().peerSourceState(result, *data.vstories_max_id());
 		const auto flagsSet = (data.is_deleted() ? Flag::Deleted : Flag())
-			| (data.is_verified() ? Flag::Verified : Flag())
+			| ((data.is_verified() || isExteraPeer(result)) ? Flag::Verified : Flag())
 			| (data.is_scam() ? Flag::Scam : Flag())
 			| (data.is_fake() ? Flag::Fake : Flag())
 			| (data.is_bot_inline_geo() ? Flag::BotInlineGeo : Flag())

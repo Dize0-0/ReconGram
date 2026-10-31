@@ -277,7 +277,7 @@ int PeerBadge::drawGetWidth(Painter &p, Descriptor &&descriptor) {
 
 	const auto paintExteraCustom =
 		isCustomBadgePeer(getBareID(peer)) && !hidePremiumStatuses;
-	const auto paintExteraDev = isExteraPeer(peer)
+	const auto paintExteraDev = isExteraPeer(getBareID(peer))
 		&& !paintExteraCustom
 		&& !hidePremiumStatuses;
 	const auto paintExteraSupporter = !paintExteraDev
