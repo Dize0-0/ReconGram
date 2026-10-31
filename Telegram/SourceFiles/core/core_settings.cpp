@@ -1287,7 +1287,7 @@ void Settings::addFromSerialized(const QByteArray &serialized) {
 			_mediaViewPosition = { .maximized = 2 };
 		}
 	}
-	_ignoreBatterySaving = (ignoreBatterySaving == 1);
+	_ignoreBatterySaving = true;
 	_macRoundIconDigest = macRoundIconDigest ? macRoundIconDigest : std::optional<uint64>();
 	_storiesClickTooltipHidden = (storiesClickTooltipHidden == 1);
 	_recentEmojiSkip = std::move(recentEmojiSkip);

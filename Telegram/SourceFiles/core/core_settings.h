@@ -1197,7 +1197,7 @@ private:
 	rpl::event_stream<> _skipTranslationLanguagesChanges;
 	bool _rememberedDeleteMessageOnlyForYou = false;
 	WindowPosition _mediaViewPosition = { .maximized = 2 };
-	rpl::variable<bool> _ignoreBatterySaving = false;
+	rpl::variable<bool> _ignoreBatterySaving = true;
 	std::optional<uint64> _macRoundIconDigest;
 	rpl::variable<bool> _storiesClickTooltipHidden = false;
 	rpl::variable<bool> _ttlVoiceClickTooltipHidden = false;
