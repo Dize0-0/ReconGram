@@ -235,8 +235,6 @@ void initialize() {
 		storage.sync_schema(true);
 
 		runMigrations(storage);
-
-		storage.sync_schema(true);
 	} catch (const std::exception &ex) {
 		LOG(("Database initialization failed: %1").arg(ex.what()));
 		moveCurrentDatabase();

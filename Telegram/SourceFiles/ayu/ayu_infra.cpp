@@ -19,6 +19,8 @@
 
 #ifdef Q_OS_WIN
 #include "ayu/utils/windows_utils.h"
+#include <QtCore/QFile>
+#include <crl/crl_async.h>
 #endif
 
 namespace AyuInfra {
@@ -62,8 +64,13 @@ void initTranslator() {
 
 void initIcon() {
 #ifdef Q_OS_WIN
-	AyuAssets::loadAppIco();
-	reloadAppIconFromTaskBar();
+	crl::async([] {
+		const auto iconPath = AyuAssets::appIcoPath();
+		if (!QFile::exists(iconPath)) {
+			AyuAssets::loadAppIco();
+			reloadAppIconFromTaskBar();
+		}
+	});
 #endif
 }
 

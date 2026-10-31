@@ -166,6 +166,7 @@ void processNewShortcuts(const QString &iconPath) {
 }
 
 void reloadAppIconFromTaskBar() {
+	const auto hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
 	const auto iconPath = AyuAssets::appIcoPath();
 
 	processNewPinned(iconPath);
@@ -173,6 +174,10 @@ void reloadAppIconFromTaskBar() {
 	processLegacy(iconPath);
 
 	SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
+
+	if (SUCCEEDED(hr)) {
+		CoUninitialize();
+	}
 }
 
 void trimMemoryUsage() {
