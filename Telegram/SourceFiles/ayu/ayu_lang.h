@@ -8,6 +8,7 @@
 
 #include <QtNetwork/QNetworkReply>
 #include <QtXml/QDomDocument>
+#include <rpl/lifetime.h>
 
 class AyuLanguage : public QObject
 {
@@ -30,6 +31,7 @@ private:
 	AyuLanguage();
 	~AyuLanguage() override = default;
 
+	void setupLanguageHooks();
 	void loadCachedLanguage();
 	void saveCachedLanguage(const QByteArray &json, const QString &langId);
 	[[nodiscard]] QString getCacheDir() const;
@@ -39,4 +41,5 @@ private:
 	QNetworkReply *_chkReply = nullptr;
 	bool needFallback = false;
 	QString _currentLangId;
+	rpl::lifetime _lifetime;
 };

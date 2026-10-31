@@ -38,8 +38,24 @@ AyuLanguage *AyuLanguage::instance = nullptr;
 AyuLanguage::AyuLanguage() = default;
 
 void AyuLanguage::init() {
-	if (!instance) instance = new AyuLanguage;
-	instance->loadCachedLanguage();
+	if (!instance) {
+		instance = new AyuLanguage;
+		instance->setupLanguageHooks();
+	}
+}
+
+void AyuLanguage::setupLanguageHooks() {
+	Lang::GetInstance().idChanges(
+	) | rpl::start_with_next([=](const QString &) {
+		const auto id = Lang::GetInstance().id();
+		const auto baseId = Lang::GetInstance().baseId();
+		loadCachedLanguage();
+		if (!id.isEmpty()) {
+			fetchLanguage(id, baseId);
+		}
+	}, _lifetime);
+
+	loadCachedLanguage();
 }
 
 AyuLanguage *AyuLanguage::currentInstance() {
@@ -63,7 +79,7 @@ void AyuLanguage::loadCachedLanguage() {
 		finalLangPackId = langPackBaseId;
 	}
 	if (finalLangPackId.isEmpty()) {
-		return;
+		finalLangPackId = u"ru"_q;
 	}
 
 	const auto cachePath = getCachePath(finalLangPackId);
@@ -71,9 +87,14 @@ void AyuLanguage::loadCachedLanguage() {
 	if (!file.exists()) {
 		const auto basePath = getCachePath(langPackBaseId);
 		if (!QFile::exists(basePath)) {
-			return;
+			if (finalLangPackId.startsWith(u"ru"_q) || langPackBaseId.startsWith(u"ru"_q) || langPackId.isEmpty()) {
+				file.setFileName(u":/gui/langs/ru.json"_q);
+			} else {
+				return;
+			}
+		} else {
+			file.setFileName(basePath);
 		}
-		file.setFileName(basePath);
 	}
 
 	if (file.open(QIODevice::ReadOnly)) {
