@@ -309,7 +309,8 @@ void from_json(const nlohmann::json &j, MessageShotSettings &s) {
 
 AyuSettings::AyuSettings()
 : _appIcon(AyuAssets::DEFAULT_ICON)
-, _editedMark(Core::IsAppLaunched() ? tr::lng_edited(tr::now) : QString("edited")) {
+, _editedMark(Core::IsAppLaunched() ? tr::lng_edited(tr::now) : QString("edited"))
+, _avatarCorners(AyuUiSettings::kMaxAvatarCorners) {
 }
 
 AyuSettings &AyuSettings::getInstance() {
@@ -1219,7 +1220,8 @@ void from_json(const nlohmann::json &j, AyuSettings &s) {
 	s._adaptiveCoverColor = j.value("adaptiveCoverColor", defaults._adaptiveCoverColor.current());
 	s._improveLinkPreviews = j.value("improveLinkPreviews", defaults._improveLinkPreviews.current());
 	s._crashReporting = j.value("crashReporting", defaults._crashReporting.current());
-	s._avatarCorners = j.value("avatarCorners", defaults._avatarCorners.current());
+	const auto corners = j.value("avatarCorners", defaults._avatarCorners.current());
+	s._avatarCorners = (corners == 23) ? AyuUiSettings::kMaxAvatarCorners : corners;
 	s._singleCornerRadius = j.value("singleCornerRadius", defaults._singleCornerRadius.current());
 	s._streamerMode = j.value("streamerMode", defaults._streamerMode.current());
 

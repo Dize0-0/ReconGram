@@ -599,6 +599,7 @@ private:
 	// Save visible area coords for painting / pressing userpics.
 	int _visibleAreaTop = 0;
 	int _visibleAreaBottom = 0;
+	int _lastUnloadHeavyPartsTop = 0;
 
 	// With migrated history we perhaps do not need to display
 	// the first _history message date (just skip it by height).

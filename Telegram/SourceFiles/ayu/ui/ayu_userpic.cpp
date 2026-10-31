@@ -80,10 +80,14 @@ void PaintShape(QPainter &p, const QRectF &rect) {
 
 QPointF OnlineBadgePosition(int photoSize, double badgeSize, double stroke) {
 	const auto corners = AyuUiSettings::getAvatarCorners();
-	const auto r = double(corners) / AyuUiSettings::kMaxAvatarCorners * photoSize / 2.0;
-	const auto edge = photoSize - r * (1.0 - std::cos(M_PI / 4.0));
+	const auto r = (corners >= AyuUiSettings::kMaxAvatarCorners)
+		? (photoSize / 2.0)
+		: (double(corners) / AyuUiSettings::kMaxAvatarCorners * photoSize / 2.0);
+	constexpr auto kEdgeFactor = 1.0 - 0.7071067811865475;
+	constexpr auto kSqrt2 = 1.4142135623730951;
+	const auto edge = photoSize - r * kEdgeFactor;
 	const auto maxPos = (stroke > 0)
-		? photoSize - badgeSize / 2.0 - (badgeSize / 2.0 + stroke / 2.0) / std::sqrt(2.0)
+		? photoSize - badgeSize / 2.0 - (badgeSize / 2.0 + stroke / 2.0) / kSqrt2
 		: double(photoSize) - badgeSize;
 	const auto pos = std::min(edge - badgeSize / 2.0, maxPos);
 	return QPointF(pos, pos);

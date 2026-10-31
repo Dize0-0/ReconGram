@@ -88,6 +88,15 @@ std::shared_ptr<const Cache> buildCache() {
 }
 
 void rebuildCache() {
+	const auto &settings = AyuSettings::getInstance();
+	if (!settings.filtersEnabled()) {
+		std::lock_guard cacheLock(cacheMutex);
+		std::lock_guard filteredLock(filteredMessagesMutex);
+		cache = std::make_shared<const Cache>();
+		filteredMessages.clear();
+		dialogsWithHiddenBlockedMessages.clear();
+		return;
+	}
 	std::lock_guard rebuildLock(rebuildMutex);
 	auto next = buildCache();
 	{
@@ -123,6 +132,12 @@ std::shared_ptr<const Cache> snapshot() {
 		if (cache) {
 			return cache;
 		}
+	}
+
+	const auto &settings = AyuSettings::getInstance();
+	if (!settings.filtersEnabled()) {
+		static const auto empty = std::make_shared<const Cache>();
+		return empty;
 	}
 
 	std::lock_guard rebuildLock(rebuildMutex);
