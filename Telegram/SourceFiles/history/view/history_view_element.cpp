@@ -1488,10 +1488,6 @@ void Element::refreshDeletedAnimationTarget() {
 }
 
 float64 Element::deletedOpacity() const {
-	return 1.;
-	if (!_data->isDeleted()) {
-		return 1.;
-	}
 	const auto &settings = AyuSettings::getInstance();
 	if (!settings.semiTransparentDeletedMessages()) {
 		_deletedOpacityAnimation.stop();
@@ -1501,7 +1497,7 @@ float64 Element::deletedOpacity() const {
 	if (_context == Context::AdminLog) { // render normally in "View Deleted"
 		return 1.;
 	}
-	if (true) {
+	if (_data->isDeleted()) {
 		if (const auto group = history()->owner().groups().find(_data)) {
 			// animation works weirdly on grouped messages, so only a fixed opacity here
 			const auto allDeleted = ranges::all_of(

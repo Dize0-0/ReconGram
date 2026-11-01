@@ -29,10 +29,6 @@ VideoUserpicPlayer::VideoUserpicPlayer() = default;
 
 VideoUserpicPlayer::~VideoUserpicPlayer() = default;
 
-void VideoUserpicPlayer::setRepaintCallback(Fn<void()> callback) {
-	_repaintCallback = std::move(callback);
-}
-
 void VideoUserpicPlayer::setup(
 		not_null<PeerData*> peer,
 		not_null<PhotoData*> photo) {
@@ -174,10 +170,7 @@ void VideoUserpicPlayer::handleUpdate(
 	v::match(update.data, [&](Information &update) {
 		streamingReady(std::move(update));
 	}, [](PreloadedVideo) {
-	}, [&](UpdateVideo) {
-		if (_repaintCallback) {
-			_repaintCallback();
-		}
+	}, [](UpdateVideo) {
 	}, [](PreloadedAudio) {
 	}, [](UpdateAudio) {
 	}, [](WaitingForData) {

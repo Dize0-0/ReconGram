@@ -1494,10 +1494,6 @@ void EmojiListWidget::repaintCustom(uint64 setId) {
 	if (_repaintsScheduled.contains(setId)) {
 		return;
 	}
-	const auto now = crl::now();
-	if (now < _lastScrolledAt + crl::time(33)) {
-		return;
-	}
 	auto scheduled = false;
 	if (_searchMode) {
 		if (setId == SearchEmojiSectionSetId()) {
@@ -1606,20 +1602,11 @@ void EmojiListWidget::paintExpanding(
 void EmojiListWidget::visibleTopBottomUpdated(
 		int visibleTop,
 		int visibleBottom) {
-	const auto top = getVisibleTop();
 	Inner::visibleTopBottomUpdated(visibleTop, visibleBottom);
-	if (top != getVisibleTop()) {
-		_lastScrolledAt = crl::now();
-		_repaintsScheduled.clear();
-	}
 	if (_footer) {
-		const auto set = currentSet(visibleTop);
-		if (set != _lastFooterSet) {
-			_lastFooterSet = set;
-			_footer->validateSelectedIcon(
-				set,
-				ValidateIconAnimations::Full);
-		}
+		_footer->validateSelectedIcon(
+			currentSet(visibleTop),
+			ValidateIconAnimations::Full);
 	}
 	unloadNotSeenCustom(visibleTop, visibleBottom);
 	checkPaginateSearchCloud(visibleTop, visibleBottom);

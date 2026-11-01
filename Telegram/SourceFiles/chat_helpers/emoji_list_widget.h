@@ -519,8 +519,6 @@ private:
 	base::flat_set<DocumentId> _recentCustomIds;
 	base::flat_set<DocumentId> _freeEffects;
 	base::flat_set<uint64> _repaintsScheduled;
-	crl::time _lastScrolledAt = 0;
-	uint64 _lastFooterSet = 0;
 	rpl::variable<int> _recentShownCount;
 	std::unique_ptr<Ui::Text::CustomEmojiPaintContext> _emojiPaintContext;
 	bool _recentPainted = false;

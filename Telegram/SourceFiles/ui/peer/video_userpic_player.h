@@ -32,7 +32,6 @@ public:
 		not_null<PeerData*> peer,
 		bool paused);
 	[[nodiscard]] bool ready() const;
-	void setRepaintCallback(Fn<void()> callback);
 
 private:
 	bool createStreaming(
@@ -49,7 +48,6 @@ private:
 	QImage _monoforumMask;
 	std::array<QImage, 4> _roundingCorners;
 	PeerData *_peer = nullptr;
-	Fn<void()> _repaintCallback;
 
 };
 

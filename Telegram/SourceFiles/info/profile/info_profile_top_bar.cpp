@@ -3258,7 +3258,6 @@ void TopBar::updateVideoUserpic() {
 	}
 	if (!_videoUserpicPlayer) {
 		_videoUserpicPlayer = std::make_unique<Ui::VideoUserpicPlayer>();
-		_videoUserpicPlayer->setRepaintCallback([=] { update(); });
 	}
 	_videoUserpicPlayer->setup(_peer, photo);
 }

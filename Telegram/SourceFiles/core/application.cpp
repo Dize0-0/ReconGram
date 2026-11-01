@@ -193,12 +193,6 @@ Application::Application()
 
 	_platformIntegration->init();
 
-#ifdef DESKTOP_APP_USE_ANGLE
-	if (Ui::GL::CurrentANGLE() == Ui::GL::ANGLE::Auto) {
-		Ui::GL::ChangeANGLE(Ui::GL::ANGLE::D3D11);
-	}
-#endif
-
 	passcodeLockChanges(
 	) | rpl::on_next([=](bool locked) {
 		_shouldLockAt = 0;
