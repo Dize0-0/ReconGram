@@ -1153,10 +1153,8 @@ void from_json(const nlohmann::json &j, AyuSettings &s) {
 	s._hideSimilarChannels = j.value("hideSimilarChannels", defaults._hideSimilarChannels.current());
 	s._messageBubbleRadius = j.value("messageBubbleRadius", defaults._messageBubbleRadius.current());
 	s._disableOpenLinkWarning = j.value("disableOpenLinkWarning", defaults._disableOpenLinkWarning.current());
-	s._wideMultiplier = j.value("wideMultiplier", defaults._wideMultiplier.current());
-	if (s._wideMultiplier > 1.05) {
-		s._wideMultiplier = 1.0;
-	}
+	const auto wideMultiplier = j.value("wideMultiplier", defaults._wideMultiplier.current());
+	s._wideMultiplier = (wideMultiplier > 1.05) ? 1.0 : wideMultiplier;
 	s._spoofWebviewAsAndroid = j.value("spoofWebviewAsAndroid", defaults._spoofWebviewAsAndroid.current());
 	s._increaseWebviewHeight = j.value("increaseWebviewHeight", defaults._increaseWebviewHeight.current());
 	s._increaseWebviewWidth = j.value("increaseWebviewWidth", defaults._increaseWebviewWidth.current());
