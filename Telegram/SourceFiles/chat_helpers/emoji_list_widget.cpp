@@ -1604,9 +1604,13 @@ void EmojiListWidget::visibleTopBottomUpdated(
 		int visibleBottom) {
 	Inner::visibleTopBottomUpdated(visibleTop, visibleBottom);
 	if (_footer) {
+		const auto set = currentSet(visibleTop);
 		_footer->validateSelectedIcon(
-			currentSet(visibleTop),
-			ValidateIconAnimations::Full);
+			set,
+			(set != _lastFooterSet)
+				? ValidateIconAnimations::Full
+				: ValidateIconAnimations::Scroll);
+		_lastFooterSet = set;
 	}
 	unloadNotSeenCustom(visibleTop, visibleBottom);
 	checkPaginateSearchCloud(visibleTop, visibleBottom);

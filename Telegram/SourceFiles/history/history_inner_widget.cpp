@@ -4713,15 +4713,18 @@ void HistoryInner::visibleAreaUpdated(int top, int bottom) {
 	}
 
 	// Unload lottie animations.
-	const auto pages = kUnloadHeavyPartsPages;
-	const auto from = _visibleAreaTop - pages * visibleAreaHeight;
-	const auto till = _visibleAreaBottom + pages * visibleAreaHeight;
-	session().data().unloadHeavyViewParts(_elementDelegate, from, till);
-	if (_migratedElementDelegate) {
-		session().data().unloadHeavyViewParts(
-			_migratedElementDelegate,
-			from,
-			till);
+	if (std::abs(_visibleAreaTop - _lastUnloadHeavyPartsTop) > visibleAreaHeight / 4) {
+		_lastUnloadHeavyPartsTop = _visibleAreaTop;
+		const auto pages = kUnloadHeavyPartsPages;
+		const auto from = _visibleAreaTop - pages * visibleAreaHeight;
+		const auto till = _visibleAreaBottom + pages * visibleAreaHeight;
+		session().data().unloadHeavyViewParts(_elementDelegate, from, till);
+		if (_migratedElementDelegate) {
+			session().data().unloadHeavyViewParts(
+				_migratedElementDelegate,
+				from,
+				till);
+		}
 	}
 	checkActivation();
 
