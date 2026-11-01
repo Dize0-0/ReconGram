@@ -55,6 +55,29 @@ include(cmake/validate_d3d_compiler.cmake)
 include(cmake/target_prepare_qrc.cmake)
 
 include(cmake/options.cmake)
+
+if (MSVC)
+    target_compile_options(common_options
+    INTERFACE
+        /O2
+        /Ob2
+        /Oi
+        /Ot
+        /Gy
+        /GF
+    )
+    target_compile_definitions(common_options
+    INTERFACE
+        NDEBUG
+        QT_NO_DEBUG
+    )
+    target_link_options(common_options
+    INTERFACE
+        /DEBUG:NONE
+        /OPT:REF
+        /OPT:ICF
+    )
+endif()
 include(cmake/external/qt/package.cmake)
 
 set(desktop_app_skip_libs
