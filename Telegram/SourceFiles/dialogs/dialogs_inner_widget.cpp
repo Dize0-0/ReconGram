@@ -315,7 +315,13 @@ InnerWidget::InnerWidget(
 	+ st::defaultDialogRow.photoSize
 	+ st::defaultDialogRow.padding.left())
 , _childListShown(std::move(childListShown))
-, _freezeTimer([=] { _shownList->unfreeze(); update(); }) {
+, _freezeTimer([=] { _shownList->unfreeze(); update(); })
+, _selectByMouseTimer([=] {
+	if (!_pendingMousePosition.isNull()) {
+		selectByMouse(_pendingMousePosition);
+		_pendingMousePosition = QPoint();
+	}
+}) {
 	setAttribute(Qt::WA_OpaquePaintEvent, true);
 	setAccessibleName(tr::lng_recent_chats(tr::now));
 
@@ -2090,6 +2096,11 @@ void InnerWidget::mouseMoveEvent(QMouseEvent *e) {
 		}
 	}
 
+	_pendingMousePosition = globalPosition;
+	if (!_selectByMouseTimer.isActive()) {
+		_selectByMouseTimer.callOnce(16);
+	}
+
 	if (_pressed && (e->buttons() & Qt::LeftButton)) {
 		const auto local = e->pos();
 		const auto outside = _dragging ? false : true;
@@ -2114,7 +2125,6 @@ void InnerWidget::mouseMoveEvent(QMouseEvent *e) {
 		}
 	}
 
-	selectByMouse(globalPosition);
 	if (_chatPreviewScheduled && !isUserpicPress()) {
 		cancelChatPreview();
 	}
@@ -2184,7 +2194,6 @@ void InnerWidget::performDrag() {
 				_qdragging = nullptr;
 				clearPressed();
 				finishReorderOnRelease();
-				selectByMouse(QCursor::pos());
 			}
 		},
 		pixmap);

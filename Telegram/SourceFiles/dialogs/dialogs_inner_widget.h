@@ -668,6 +668,9 @@ private:
 	bool _pressedMorePosts = false;
 	int _collapsedSelected = -1;
 	int _collapsedPressed = -1;
+
+	base::Timer _selectByMouseTimer;
+	QPoint _pendingMousePosition;
 	bool _skipTopDialog = false;
 	Row *_selected = nullptr;
 	Row *_pressed = nullptr;
