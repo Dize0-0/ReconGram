@@ -875,6 +875,9 @@ void TabbedSelector::updateRestrictedLabelGeometry() {
 
 void TabbedSelector::paintEvent(QPaintEvent *e) {
 	auto p = QPainter(this);
+	
+	// Optimize rendering hints for better performance
+	p.setRenderHint(QPainter::Antialiasing, false);
 
 	auto switching = (_slideAnimation != nullptr);
 	if (switching) {

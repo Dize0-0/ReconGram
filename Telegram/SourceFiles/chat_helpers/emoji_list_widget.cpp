@@ -2151,6 +2151,10 @@ void EmojiListWidget::paintEvent(QPaintEvent *e) {
 
 	const auto clip = e ? e->rect() : rect();
 
+	// Optimize rendering hints
+	p.setRenderHint(QPainter::Antialiasing, false);
+	p.setRenderHint(QPainter::SmoothPixmapTransform, !On(PowerSaving::kEmojiPanel));
+
 	_repaintsScheduled.clear();
 	if (_grabbingChosen) {
 		p.setCompositionMode(QPainter::CompositionMode_Source);

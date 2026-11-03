@@ -1435,6 +1435,11 @@ QRect StickersListWidget::stickerRect(int section, int sel) {
 void StickersListWidget::paintEvent(QPaintEvent *e) {
 	Painter p(this);
 	auto clip = e->rect();
+	
+	// Enable antialiasing only when needed
+	p.setRenderHint(QPainter::Antialiasing, false);
+	p.setRenderHint(QPainter::SmoothPixmapTransform, !On(PowerSaving::kStickersPanel));
+	
 	if (st().bg->c.alpha() > 0) {
 		p.fillRect(clip, st().bg);
 	}
